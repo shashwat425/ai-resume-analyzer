@@ -2,7 +2,8 @@
 import requests
 import streamlit as st
 
-API_URL = "http://127.0.0.1:8000/analyze-resume"
+# API_URL = "http://127.0.0.1:8000/analyze-resume"
+API_URL = "https://ai-resume-analyzer-q37q.onrender.com/analyze-resume"
 
 st.set_page_config(
     page_title="AI Resume Analyzer",
@@ -215,8 +216,9 @@ if st.button("Analyze My Resume", type="primary"):
         except requests.exceptions.ConnectionError:
             st.error(
                 "Cannot connect to the backend. "
-                "Make sure FastAPI is running at "
-                "http://127.0.0.1:8000."
+                # "Make sure FastAPI is running at "
+                # "http://127.0.0.1:8000."
+                "Please check whether the deployed FastAPI service is running."
             )
         except (KeyError, ValueError) as exc:
             st.error(
