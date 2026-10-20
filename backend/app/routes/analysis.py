@@ -17,6 +17,7 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 async def analyze_resume(
     resume: UploadFile = File(...),
     job_description: str = Form(...),
+    groq_api_key: str = Form(...),
 ):
     # 1. Validate the uploaded file
     if not resume.filename or not resume.filename.lower().endswith(".pdf"):
@@ -30,6 +31,12 @@ async def analyze_resume(
         raise HTTPException(
             status_code=400,
             detail="Job description cannot be empty"
+        )
+
+    if not groq_api_key.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Groq API key cannot be empty.",
         )
 
     # 3. Read the pdf file and check its size
@@ -77,7 +84,11 @@ async def analyze_resume(
     #         ),
     #     )
     try:
-        ai_feedback = analyze_with_llm(resume_text, job_description)
+        ai_feedback = analyze_with_llm(
+            resume_text,
+            job_description,
+            groq_api_key.strip(),
+        )
     except Exception as exc:
         print(f"Groq analysis error:{type(exc).__name__}: {exc}")
         raise HTTPException(

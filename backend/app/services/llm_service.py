@@ -1,20 +1,5 @@
 import json
-import os
-from secrets import choice
-
-from dotenv import load_dotenv
 from groq import Groq
-
-load_dotenv()
-
-API_KEY = os.getenv("GROQ_API_KEY")
-
-if not API_KEY:
-    raise RuntimeError(
-        "GROQ_API_KEY is missing. Add it to your backend/.env file."
-    )
-
-client = Groq(api_key=API_KEY)
 
 # Change this if the model is unavailable to your account.
 MODEL_NAME = "openai/gpt-oss-20b"
@@ -22,7 +7,10 @@ MODEL_NAME = "openai/gpt-oss-20b"
 def analyze_with_llm(
         resume_text: str,
         job_description: str,
+        api_key: str,
 ) -> dict:
+    client = Groq(api_key=api_key)
+
     system_prompt = """
     You are an expert resume review assistent.
 

@@ -21,6 +21,18 @@ st.info(
     "missing skills, and improvement opportunities."
 )
 
+st.subheader("Groq API key")
+st.caption(
+    "Enter your key for this session. It is sent to your local backend for "
+    "analysis and is not saved in the project files."
+)
+groq_api_key = st.text_input(
+    "Groq API key",
+    type="password",
+    key="groq_api_key",
+    help="Create or manage your key in the Groq Console.",
+)
+
 # Resume upload
 resume = st.file_uploader(
     "Upload your resume (PDF only)",
@@ -42,6 +54,8 @@ if st.button("Analyze My Resume", type="primary"):
         st.error("Please upload your resume as a PDF.")
     elif not job_description.strip():
         st.error("Please enter a job description.")
+    elif not groq_api_key.strip():
+        st.error("Please enter your Groq API key.")
     else:
         try:
             with st.spinner(
@@ -57,7 +71,8 @@ if st.button("Analyze My Resume", type="primary"):
                         )
                     },
                     data={
-                        "job_description": job_description
+                        "job_description": job_description,
+                        "groq_api_key": groq_api_key.strip(),
                     },
                     timeout=120,
                 )
