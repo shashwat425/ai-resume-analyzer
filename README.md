@@ -15,4 +15,5 @@ If the virtual environment isn't activated in this terminal, activate it:
 
 
 Then launch the frontend:
-streamlit run frontend/app.py
+streamlit run frontend/app.py# ai-resume-analyzer
+Analyzes Resume against job description
